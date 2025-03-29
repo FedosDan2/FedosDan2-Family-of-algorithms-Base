@@ -17,6 +17,8 @@
 #include "../include/tables.h"
 
 
+// Функция кодирования исходного файла base16 - алгоритмом --- РАБОТАЕТ
+char* base16_encode(const unsigned char *input, size_t input_len, char *output) {
 /**
  * @brief Кодирует данные в формат Base16 (HEX).
  * 
@@ -32,8 +34,6 @@
  * char encoded[5];
  * base16_encode(data, 2, encoded); // Результат: "ABCD"
  */
-// Функция кодирования исходного файла base16 - алгоритмом --- РАБОТАЕТ
-char* base16_encode(const unsigned char *input, size_t input_len, char *output) {
     // Таблица символов Base16
     const char *base16_chars = "0123456789ABCDEF";
 
@@ -51,6 +51,8 @@ char* base16_encode(const unsigned char *input, size_t input_len, char *output) 
 
 
 
+// Функция кодирования исходного файла base32 - алгоритмом --- РАБОТАЕТ
+char* base32_encode(const char* input, size_t len, char* output) {
 /**
  * @brief Кодирует данные в формат Base32.
  * 
@@ -66,8 +68,6 @@ char* base16_encode(const unsigned char *input, size_t input_len, char *output) 
  * char encoded[20];
  * base32_encode(data, 5, encoded); // Результат: "JBSWY3DP"
  */
-// Функция кодирования исходного файла base32 - алгоритмом --- РАБОТАЕТ
-char* base32_encode(const char* input, size_t len, char* output) {
     int i, j;
     unsigned int val = 0;
     int bit_count = 0;
@@ -89,7 +89,8 @@ char* base32_encode(const char* input, size_t len, char* output) {
 
 
 
-
+// Функция кодирования исходного файла base58 - алгоритмом --- РАБОТАЕТ
+char* base58_encode(const unsigned char* input, size_t len, char* output) {
 /**
  * @brief Кодирует данные в формат Base58 (используется в Bitcoin-адресах).
  * 
@@ -106,8 +107,6 @@ char* base32_encode(const char* input, size_t len, char* output) {
  * char encoded[10];
  * base58_encode(data, 3, encoded); // Результат: "1qfr"
  */
-// Функция кодирования исходного файла base58 - алгоритмом --- РАБОТАЕТ
-char* base58_encode(const unsigned char* input, size_t len, char* output) {
     unsigned int carry;
     size_t i, j, output_len;
 
@@ -155,7 +154,8 @@ char* base58_encode(const unsigned char* input, size_t len, char* output) {
 
 
 
-
+// Функция кодирования исходного файла base62 - алгоритмом --- РАБОТАЕТ
+char* base62_encode(const unsigned char* input, size_t len, char* output) {
 /**
  * @brief Кодирует данные в формат Base62 (0-9, A-Z, a-z).
  * 
@@ -167,8 +167,6 @@ char* base58_encode(const unsigned char* input, size_t len, char* output) {
  * @note Используется таблица символов `base62_table` из `tables.h`.
  * @warning Требует выделения памяти внутри функции.
  */
-// Функция кодирования исходного файла base62 - алгоритмом --- РАБОТАЕТ
-char* base62_encode(const unsigned char* input, size_t len, char* output) {
     unsigned int carry;
     size_t i, j, output_len;
     unsigned char* result = (unsigned char*)malloc(len * 2); // Максимальная длина результата
@@ -209,6 +207,8 @@ char* base62_encode(const unsigned char* input, size_t len, char* output) {
 
 
 
+// Функция кодирования исходного файла base64 - алгоритмом --- РАБОТАЕТ
+char* base64_encode(const unsigned char* input, size_t len) {
 /**
  * @brief Кодирует данные в формат Base64.
  * 
@@ -224,8 +224,6 @@ char* base62_encode(const unsigned char* input, size_t len, char* output) {
  * char* encoded = base64_encode(data, 3); // Результат: "q83D"
  * free(encoded);
  */
-// Функция кодирования исходного файла base64 - алгоритмом --- РАБОТАЕТ
-char* base64_encode(const unsigned char* input, size_t len) {
     // Вычисляем длину выходной строки
     size_t output_len = 4 * ((len + 2) / 3); // Каждые 3 байта кодируются в 4 символа
     char* output = (char*)malloc(output_len + 1); // +1 для завершающего нуля
@@ -251,7 +249,8 @@ char* base64_encode(const unsigned char* input, size_t len) {
 
 
 
-
+// Функция кодирования исходного файла base85 - алгоритмом --- РАБОТАЕТ
+char* base85_encode(const unsigned char* input, size_t len) {
 /**
  * @brief Кодирует данные в формат Base85 (используется в PDF и PostScript).
  * 
@@ -262,8 +261,6 @@ char* base64_encode(const unsigned char* input, size_t len) {
  * @note Каждые 4 байта кодируются в 5 символов.
  * @warning Выделяет память внутри функции.
  */
-// Функция кодирования исходного файла base85 - алгоритмом --- РАБОТАЕТ
-char* base85_encode(const unsigned char* input, size_t len) {
     // Вычисляем размер выходного буфера
     size_t output_len = ((len + 3) / 4) * 5 + 1; // +1 для завершающего нуля
     char* output = (char*)malloc(output_len);

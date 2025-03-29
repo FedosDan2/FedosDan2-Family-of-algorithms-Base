@@ -19,6 +19,8 @@
 
 
 
+// Функция поиска декодированного символа
+int find_index(char c, const char table[]) {
 /**
  * @brief Поиск индекса символа в заданной таблице
  * 
@@ -28,8 +30,6 @@
  * 
  * @note Используется всеми функциями декодирования для преобразования символов
  */
-// Функция поиска декодированного символа
-int find_index(char c, const char table[]) {
     for (int i = 0; table[i] != '\0'; i++) {
         if (table[i] == c) {
             return i;
@@ -40,6 +40,8 @@ int find_index(char c, const char table[]) {
 
 
 
+// Функция декодирования исходного файла base16 - алгоритмом --- РАБОТАЕТ
+unsigned char* base16_decode(const unsigned char* input, size_t len, unsigned char* output) {
 /**
  * @brief Декодирует данные из формата Base16 (HEX)
  * 
@@ -54,8 +56,6 @@ int find_index(char c, const char table[]) {
  * unsigned char decoded[5];
  * base16_decode(encoded, 10, decoded); // Результат: "Hello"
  */
-// Функция декодирования исходного файла base16 - алгоритмом --- РАБОТАЕТ
-unsigned char* base16_decode(const unsigned char* input, size_t len, unsigned char* output) {
     // Проверка на четность длины входных данных
     if (len % 2 != 0) {
         fprintf(stderr, "Error: Input length must be even.\n");
@@ -82,6 +82,8 @@ unsigned char* base16_decode(const unsigned char* input, size_t len, unsigned ch
 
 
 
+// Функция декодирования исходного файла base32 - алгоритмом --- РАБОТАЕТ
+unsigned char* base32_decode(const unsigned char* input, size_t len, size_t* output_len) {
 /**
  * @brief Декодирует данные из формата Base32
  * 
@@ -93,8 +95,6 @@ unsigned char* base16_decode(const unsigned char* input, size_t len, unsigned ch
  * @note Автоматически обрабатывает дополнение '='
  * @warning Выделяет память, которую нужно освободить через free()
  */
-// Функция декодирования исходного файла base32 - алгоритмом --- РАБОТАЕТ
-unsigned char* base32_decode(const unsigned char* input, size_t len, size_t* output_len) {
     size_t padded_len = len;
     while (padded_len % 8 != 0) {
         padded_len++; // Учитываем недостающие символы
@@ -162,6 +162,8 @@ unsigned char* base32_decode(const unsigned char* input, size_t len, size_t* out
 
 
 
+// Функция декодирования исходного файла base58 - алгоритмом --- РАБОТАЕТ
+unsigned char* base58_decode(const unsigned char* input, size_t len, size_t* output_len) {
 /**
  * @brief Декодирует данные из формата Base58 (используется в Bitcoin)
  * 
@@ -173,8 +175,6 @@ unsigned char* base32_decode(const unsigned char* input, size_t len, size_t* out
  * @note Корректно обрабатывает ведущие '1' (кодируют нулевые байты)
  * @warning Выделяет память, которую нужно освободить через free()
  */
-// Функция декодирования исходного файла base58 - алгоритмом --- РАБОТАЕТ
-unsigned char* base58_decode(const unsigned char* input, size_t len, size_t* output_len) {
     size_t zero_count = 0;
     while (zero_count < len && input[zero_count] == base58_table[0]) {
         zero_count++;
@@ -235,6 +235,8 @@ unsigned char* base58_decode(const unsigned char* input, size_t len, size_t* out
 
 
 
+// Функция декодирования исходного файла base62 - алгоритмом --- РАБОТАЕТ
+unsigned char* base62_decode(const unsigned char* input, size_t len, size_t* output_len) {
 /**
  * @brief Декодирует данные из формата Base62 (0-9, A-Z, a-z)
  * 
@@ -245,8 +247,6 @@ unsigned char* base58_decode(const unsigned char* input, size_t len, size_t* out
  * 
  * @warning Выделяет память, которую нужно освободить через free()
  */
-// Функция декодирования исходного файла base62 - алгоритмом --- РАБОТАЕТ
-unsigned char* base62_decode(const unsigned char* input, size_t len, size_t* output_len) {
     if (len == 0) {
         *output_len = 0;
         return NULL;
@@ -334,6 +334,8 @@ unsigned char* base62_decode(const unsigned char* input, size_t len, size_t* out
 
 
 
+// Функция декодирования исходного файла base64 - алгоритмом --- РАБОТАЕТ
+unsigned char* base64_decode(const unsigned char* input, size_t len, size_t* output_len){
 /**
  * @brief Декодирует данные из формата Base64
  * 
@@ -345,8 +347,6 @@ unsigned char* base62_decode(const unsigned char* input, size_t len, size_t* out
  * @note Автоматически обрабатывает дополнение '='
  * @warning Выделяет память, которую нужно освободить через free()
  */
-// Функция декодирования исходного файла base64 - алгоритмом --- РАБОТАЕТ
-unsigned char* base64_decode(const unsigned char* input, size_t len, size_t* output_len){
     size_t padded_len = len;
     while (padded_len % 4 != 0) {
         padded_len++; // Учитываем недостающие символы
@@ -409,6 +409,8 @@ unsigned char* base64_decode(const unsigned char* input, size_t len, size_t* out
 
 
 
+// Функция декодирования исходного файла base85 - алгоритмом --- РАБОТАЕТ
+unsigned char* base85_decode(const unsigned char* input, size_t len, size_t* output_len) {
 /**
  * @brief Декодирует данные из формата Base85 (используется в PDF/PostScript)
  * 
@@ -420,8 +422,6 @@ unsigned char* base64_decode(const unsigned char* input, size_t len, size_t* out
  * @note Автоматически пропускает пробелы и символы новой строки
  * @warning Выделяет память, которую нужно освободить через free()
  */
-// Функция декодирования исходного файла base85 - алгоритмом --- РАБОТАЕТ
-unsigned char* base85_decode(const unsigned char* input, size_t len, size_t* output_len) {
     if (!input|| len == 0) {
         *output_len = 0;
         return NULL;

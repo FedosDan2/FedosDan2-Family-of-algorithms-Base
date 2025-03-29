@@ -24,14 +24,14 @@
 #include <stdint.h>
 
 
+// Функция для получения имени файла из пути
+const char* get_filename(const char* path) {
 /**
  * @brief Получает имя файла из полного пути
  * 
  * @param path Полный путь к файлу
  * @return const char* Указатель на имя файла
  */
-// Функция для получения имени файла из пути
-const char* get_filename(const char* path) {
     const char* last_slash = strrchr(path, '/');
     const char* last_backslash = strrchr(path, '\\');
     const char* last_separator = (last_slash > last_backslash) ? last_slash : last_backslash;
@@ -40,6 +40,8 @@ const char* get_filename(const char* path) {
 
 
 
+// Функция получения расширения файла
+char* extension_definition(const char* name_input) {
 /**
  * @brief Определяет расширение файла
  * 
@@ -48,8 +50,7 @@ const char* get_filename(const char* path) {
  * 
  * @warning Выделяет память, которую нужно освободить через free()
  */
-// Функция получения расширения файла
-char* extension_definition(const char* name_input) {
+
     size_t length = strlen(name_input);
     int num_dots = 0;
     int last_dot_index = -1;
@@ -82,6 +83,8 @@ char* extension_definition(const char* name_input) {
 
 
 
+// Функция преобразования файла в битовую строку
+unsigned char* read_file_as_bytes(const char* filename, size_t* file_size) {
 /**
  * @brief Читает файл как массив байтов
  * 
@@ -91,8 +94,6 @@ char* extension_definition(const char* name_input) {
  * 
  * @warning Выделяет память, которую нужно освободить через free()
  */
-// Функция преобразования файла в битовую строку
-unsigned char* read_file_as_bytes(const char* filename, size_t* file_size) {
     FILE* file = fopen(filename, "rb");
     if (!file) {
         perror("Error opening file");
@@ -120,6 +121,8 @@ unsigned char* read_file_as_bytes(const char* filename, size_t* file_size) {
 
 
 
+// Функция выбора алгоритма кодирования
+unsigned char* choice_of_alg(char* file_data, size_t file_size, char** dot_output) {
 /**
  * @brief Выбирает алгоритм кодирования и кодирует данные
  * 
@@ -131,8 +134,6 @@ unsigned char* read_file_as_bytes(const char* filename, size_t* file_size) {
  * @note Выводит меню выбора алгоритма пользователю
  * @warning Выделяет память, которую нужно освободить через free()
  */
-// Функция выбора алгоритма кодирования
-unsigned char* choice_of_alg(char* file_data, size_t file_size, char** dot_output) {
     uint8_t choice;
     unsigned char* encoded_data = NULL;
 
@@ -205,6 +206,8 @@ unsigned char* choice_of_alg(char* file_data, size_t file_size, char** dot_outpu
 
 
 
+// Функция получения имени выходного файла
+char *create_output_name(const char* name_input, const char* dot_output) {
 /**
  * @brief Создает имя выходного файла
  * 
@@ -214,8 +217,6 @@ unsigned char* choice_of_alg(char* file_data, size_t file_size, char** dot_outpu
  * 
  * @warning Выделяет память, которую нужно освободить через free()
  */
-// Функция получения имени выходного файла
-char *create_output_name(const char* name_input, const char* dot_output) {
     // Выделяем память для строки, длина которой равна длине имени входного файла + длина расширения + 1 для символа \0
     size_t length = strlen(name_input) + strlen(dot_output) + 1;
     char* output_name = (char*)malloc(length * sizeof(char)); // выделяем память
@@ -233,6 +234,9 @@ char *create_output_name(const char* name_input, const char* dot_output) {
 
 
 
+
+// Функция получения названия алгоритма, которым надо декодировать
+char* decode_input_name(const char* name_input) {
 /**
  * @brief Определяет алгоритм декодирования из имени файла
  * 
@@ -241,8 +245,6 @@ char *create_output_name(const char* name_input, const char* dot_output) {
  * 
  * @warning Выделяет память, которую нужно освободить через free()
  */
-// Функция получения названия алгоритма, которым надо декодировать
-char* decode_input_name(const char* name_input) {
     size_t length = strlen(name_input);
     int num_dots = 0;
     int last_dot_index = -1;
@@ -275,6 +277,9 @@ char* decode_input_name(const char* name_input) {
 
 
 
+
+// Функция считывания данных из файла, который нужно декодировать 
+unsigned char* open_file_to_decod(char* filepath_decoded) {
 /**
  * @brief Читает файл для декодирования
  * 
@@ -283,8 +288,6 @@ char* decode_input_name(const char* name_input) {
  * 
  * @warning Выделяет память, которую нужно освободить через free()
  */
-// Функция считывания данных из файла, который нужно декодировать 
-unsigned char* open_file_to_decod(char* filepath_decoded) {
     FILE *decod_file = fopen(filepath_decoded, "r");
     if (!decod_file){
         perror("Error opening file to decode.\n");
@@ -313,6 +316,8 @@ unsigned char* open_file_to_decod(char* filepath_decoded) {
 
 
 
+// Функция определения алгоритма декодирования
+char* url_to_decod_algorithm(const unsigned char* file_decode_data, const char* algorithm, size_t* file_size) {
 /**
  * @brief Декодирует данные с использованием указанного алгоритма
  * 
@@ -323,8 +328,6 @@ unsigned char* open_file_to_decod(char* filepath_decoded) {
  * 
  * @warning Выделяет память, которую нужно освободить через free()
  */
-// Функция определения алгоритма декодирования
-char* url_to_decod_algorithm(const unsigned char* file_decode_data, const char* algorithm, size_t* file_size) {
     if (!file_decode_data || !algorithm || *file_size == 0) {
         fprintf(stderr, "Invalid input parameters\n");
         return NULL;
@@ -396,14 +399,14 @@ char* url_to_decod_algorithm(const unsigned char* file_decode_data, const char* 
 
 
 
+// Функция удаления расширения
+char* clear_decoded_name(unsigned char* filename) {
 /**
  * @brief Удаляет расширение из имени файла
  * 
  * @param filename Имя файла
  * @return char* Имя файла без расширения
  */
-// Функция удаления расширения
-char* clear_decoded_name(unsigned char* filename) {
     // Находим последнюю точку в имени файла
     char *last_dot = strrchr(filename, '.');
     if (last_dot) {
@@ -415,6 +418,8 @@ char* clear_decoded_name(unsigned char* filename) {
 
 
 
+// Функция считывания данных из файла, который нужно декодировать
+char* read_decode(const char *filename, size_t *file_size){
 /**
  * @brief Читает файл для декодирования
  * 
@@ -424,8 +429,6 @@ char* clear_decoded_name(unsigned char* filename) {
  * 
  * @warning Выделяет память, которую нужно освободить через free()
  */
-// Функция считывания данных из файла, который нужно декодировать
-char* read_decode(const char *filename, size_t *file_size){
     FILE* file = fopen(filename, "r");
     if (!file) {
         perror("Error opening file");
@@ -452,6 +455,7 @@ char* read_decode(const char *filename, size_t *file_size){
 
 
 
+int main(void) {
 /**
  * @brief Главная функция программы
  * 
@@ -459,7 +463,6 @@ char* read_decode(const char *filename, size_t *file_size){
  * 
  * @note Предоставляет интерфейс для выбора между кодированием и декодированием
  */
-int main(void) {
     printf("Encode / Decode: ");
     char ans[10];
     char output_dir[] = "output/";
